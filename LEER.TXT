@@ -1,0 +1,46 @@
+# Entrega 1 - Autenticación y Autorización
+
+## Base de datos
+
+Estoy usando MongoDB Atlas para esta entrega. La configuración está en:
+
+```
+mongodb+srv://thurtadocr:Zpdqq3sC0kfm7MMT@cluster0.j4lzcic.mongodb.net/entrega-final
+```
+
+## Como probar
+
+1. npm install
+2. npm start
+3. Servidor corre en puerto 8080
+
+## Endpoints
+
+POST /api/sessions/register - crear usuarios
+POST /api/sessions/login - hacer login  
+GET /api/sessions/current - ver usuario actual
+
+## Usuarios de prueba
+
+Hay varios usuarios creados con password "123456":
+
+juan@email.com
+ana@email.com  
+carlos@email.com
+maria@email.com
+pedro@email.com
+lucia@email.com
+
+## Para login
+
+Usar cualquier email de arriba con password "123456". El login devuelve un token JWT que se usa en el header Authorization: Bearer [token] para /current.
+
+## Implementación
+
+- Modelo User con todos los campos pedidos
+- Passwords encriptadas con bcrypt
+- Passport con estrategias local y JWT
+- JWT para autenticación
+- Endpoint /current que valida el token
+
+Todo funciona según lo pedido en la consigna.

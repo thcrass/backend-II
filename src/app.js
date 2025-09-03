@@ -1,5 +1,5 @@
-// Configuración de variables de entorno
-process.env.SECRET = "CoderCoder123";
+import dotenv from 'dotenv';
+dotenv.config();
 
 import express from 'express';
 import handlebars from 'express-handlebars';
@@ -17,7 +17,7 @@ import { iniciarPassport } from './config/passport.config.js';
 
 const app = express();
 
-const uri = 'mongodb+srv://thurtadocr:Zpdqq3sC0kfm7MMT@cluster0.j4lzcic.mongodb.net/entrega-final';
+const uri = process.env.MONGO_URL;
 mongoose.connect(uri);
 
 //Handlebars Config
@@ -40,7 +40,7 @@ app.use('/api/carts', cartRouter);
 app.use('/api/sessions', sessionRouter);
 app.use('/', viewsRouter);
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const httpServer = app.listen(PORT, () => {
     console.log(`Start server in PORT ${PORT}`);
 });

@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { productDBManager } from '../dao/productDBManager.js';
 import { uploader } from '../utils/multerUtil.js';
+import { passportCall } from '../middleware/auth.js';
+import { isAdmin, isAuthenticated } from '../middleware/authorization.js';
 
 const router = Router();
 const ProductService = new productDBManager();
@@ -30,7 +32,8 @@ router.get('/:pid', async (req, res) => {
     }
 });
 
-router.post('/', uploader.array('thumbnails', 3), async (req, res) => {
+// Solo administradores pueden crear productos
+router.post('/', passportCall('current'), isAdmin, uploader.array('thumbnails', 3), async (req, res) => {
 
     if (req.files) {
         req.body.thumbnails = [];
@@ -53,7 +56,8 @@ router.post('/', uploader.array('thumbnails', 3), async (req, res) => {
     }
 });
 
-router.put('/:pid', uploader.array('thumbnails', 3), async (req, res) => {
+// Solo administradores pueden actualizar productos
+router.put('/:pid', passportCall('current'), isAdmin, uploader.array('thumbnails', 3), async (req, res) => {
 
     if (req.files) {
         req.body.thumbnails = [];
@@ -76,7 +80,8 @@ router.put('/:pid', uploader.array('thumbnails', 3), async (req, res) => {
     }
 });
 
-router.delete('/:pid', async (req, res) => {
+// Solo administradores pueden eliminar productos
+router.delete('/:pid', passportCall('current'), isAdmin, async (req, res) => {
 
     try {
         const result = await ProductService.deleteProduct(req.params.pid);
